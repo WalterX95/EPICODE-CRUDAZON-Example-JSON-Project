@@ -48,7 +48,8 @@ async function loadList() {
         console.log(response.json());
     }).then((data) => {
             myProduct = JSON.stringify(data);
-            productList.push(data);
+            console.log(myProduct);
+            productList.push(myProduct);
             for(let i = 0; i < productList.length; i++) {
                 let main = document.getElementById("fetchData");
                 let objCard = document.createElement("div");
@@ -151,6 +152,6 @@ function printForm(id = 1) {
 
 addProduct.addEventListener("click",function(e) {
     e.preventDefault();
-     //manageItem(1);
-     createProduct();
+     manageItem(1);
+    // createProduct();
 });
