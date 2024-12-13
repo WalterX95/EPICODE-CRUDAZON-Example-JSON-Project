@@ -10,16 +10,16 @@ const deleteProduct = document.getElementById('deleteProduct');
 const formError = document.getElementById('formError');
 const addProduct = document.getElementById('addProduct');
 const modProduct = document.getElementById('modPrduct');
+const formProduct = document.getElementById("myForm");
 
 // Classe per gestire i prodotti conformemente all'API
 class Product {
-    constructor(_name, _description, _brand, _imageUrl, _price, _id) {
+    constructor(_name, _description, _brand, _imageUrl, _price) {
         this.name = _name;
         this.description = _description;
         this.brand = _brand;
         this.imageUrl = _imageUrl;
         this.price = _price;
-        this.id = _id;
     }
 }
 
@@ -75,11 +75,11 @@ async function createProduct() {
 // Funzione che gestisce l'aggiunta record O avvia il processo di modifica record
 const manageItem = async id => {
     if (!id) { // Aggiunta record
-        let newUser = new User(userName.value, userSurname.value, userPhone.value, userEmail.value);
+        let newProduct = new User(productName.value, descProduct.value, brandProduct.value, linkProduct.value, priceProduct.value);
         try {
             await fetch(dataURL, {
                 method: 'POST',
-                body: JSON.stringify(newUser),
+                body: JSON.stringify(newProduct),
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -135,7 +135,7 @@ const modifyItem = async id => {
 function printForm(id) {
     for (let i = 0; i < usersList.length; i++) {
         if (id == usersList[i].id) {
-            userMod = new User(usersList[i].name, usersList[i].surname, usersList[i].phone, usersList[i].email);
+            userMod = new Product(productName[i].value, descProduct[i].value, brandProduct[i].value, linkProduct[i].value, priceProduct[i].value);
             userMod.id = usersList[i].id;
         }
     }
