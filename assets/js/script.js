@@ -5,7 +5,7 @@ const productName = document.getElementById('productName');
 const linkProduct = document.getElementById('linkProduct');
 const brandProduct = document.getElementById('brandProduct');
 const priceProduct = document.getElementById('priceProduct');
-const descProduct = document.getElementById('descProuct');
+const descProduct = document.getElementById('descProduct');
 const deleteProduct = document.getElementById('deleteProduct');
 const formError = document.getElementById('formError');
 const addProduct = document.getElementById('addProduct');
@@ -47,20 +47,23 @@ async function loadList() {
     }).then((response) => {
         console.log(response.json());
     }).then((data) => {
-        myProduct = JSON.stringify(data);
-            console.log(myProduct);
-            let main = document.getElementById("fetchData");
-            let objCard = document.createElement("div");
-            let objImg = document.createElement("img");
-            let objDesc = document.createElement("div");
-            objCard.className = "card";
-            objDesc.className = "card-body";
-            objCard.style.width = "18rem";
-            objImg.className = "card-img-top";
-            objImg.src = myProduct;
-            objCard.appendChild(objImg);
-            objCard.appendChild(objDesc);
-            main.appendChild(objCard);
+            myProduct = JSON.stringify(data);
+            productList.push(data);
+            for(let i = 0; i < productList.length; i++) {
+                let main = document.getElementById("fetchData");
+                let objCard = document.createElement("div");
+                let objImg = document.createElement("img");
+                let objDesc = document.createElement("div");
+                objCard.className = "card";
+                objDesc.className = "card-body";
+                objCard.style.width = "18rem";
+                objImg.className = "card-img-top";
+                objImg.src = myProduct;
+                objCard.appendChild(objImg);
+                objCard.appendChild(objDesc);
+                main.appendChild(objCard);
+        }
+            
     }).catch((error) => {
        console.log(error);
     });
@@ -76,14 +79,15 @@ async function createProduct() {
     });
 }
 
-const manageItem = async id => {
-    if (!id) { // Aggiunta record
-        let newProduct = new User(productName.value, descProduct.value, brandProduct.value, linkProduct.value, priceProduct.value);
+const manageItem = async () => {
+   // if (!id) { // Aggiunta record
+        let newProduct = new Product(productName.value, descProduct.value, brandProduct.value, linkProduct.value, priceProduct.value);
         try {
-            await fetch(dataURL, {
+            await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(newProduct),
                 headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU4NzE0MzA3ZGI3MzAwMTU0MDYzYjIiLCJpYXQiOjE3MzQwODMwMjYsImV4cCI6MTczNTI5MjYyNn0.rD8PAahmZbW25bdkpccCc5YFq6o5Cw5YYXTfWCxoS0s",
                     "Content-Type": "application/json"
                 }
             });
@@ -91,9 +95,9 @@ const manageItem = async id => {
             console.log(error);
         }
         myForm.reset();
-    } else { // Avvio del processo di modifica record
-        printForm(id);
-    }
+  //  } else { // Avvio del processo di modifica record
+       // printForm(id);
+ //   }
 }
 
 // Funzione di cancellazione record
@@ -131,7 +135,7 @@ const modifyItem = async id => {
 }
 
 // Funzione di riempimento del form con i dati del record da modificare
-function printForm(id) {
+function printForm(id = 1) {
     for (let i = 0; i < productList.length; i++) {
         if (id == productList[i].id) {
             productMod = new Product(productName[i].value, descProduct[i].value, brandProduct[i].value, linkProduct[i].value, priceProduct[i].value);
@@ -145,4 +149,8 @@ function printForm(id) {
     productMod.imageUrl = linkProduct.value;
 }
 
-
+addProduct.addEventListener("click",function(e) {
+    e.preventDefault();
+     //manageItem(1);
+     createProduct();
+});
