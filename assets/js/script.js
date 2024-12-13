@@ -23,11 +23,14 @@ class Product {
     }
 }
 
+// Array per gestire l'elenco dei prodotti ottenuti dalla fetch in locale
+let productList = [];
+
 // Variabile per diversificare l'inserimento dalla modifica
 let productMod;
 
 
-let myphoto;
+let myProduct;
 
 document.addEventListener('load', init());
 
@@ -44,16 +47,19 @@ async function loadList() {
     }).then((response) => {
         console.log(response.json());
     }).then((data) => {
-        myphoto = JSON.stringify(data);
-            console.log(myphoto);
+        myProduct = JSON.stringify(data);
+            console.log(myProduct);
             let main = document.getElementById("fetchData");
             let objCard = document.createElement("div");
             let objImg = document.createElement("img");
+            let objDesc = document.createElement("div");
             objCard.className = "card";
+            objDesc.className = "card-body";
             objCard.style.width = "18rem";
             objImg.className = "card-img-top";
-            objImg.src = myphoto;
+            objImg.src = myProduct;
             objCard.appendChild(objImg);
+            objCard.appendChild(objDesc);
             main.appendChild(objCard);
     }).catch((error) => {
        console.log(error);
@@ -70,9 +76,6 @@ async function createProduct() {
     });
 }
 
-
-
-// Funzione che gestisce l'aggiunta record O avvia il processo di modifica record
 const manageItem = async id => {
     if (!id) { // Aggiunta record
         let newProduct = new User(productName.value, descProduct.value, brandProduct.value, linkProduct.value, priceProduct.value);
@@ -87,7 +90,6 @@ const manageItem = async id => {
         } catch (error) {
             console.log(error);
         }
-        readList();
         myForm.reset();
     } else { // Avvio del processo di modifica record
         printForm(id);
@@ -97,26 +99,26 @@ const manageItem = async id => {
 // Funzione di cancellazione record
 const deleteItem = async id => {
     try {
-        await fetch(dataURL + id, {
+        await fetch(url + id, {
             method: 'DELETE'
         });
     } catch (error) {
         console.log(error);
     }
-    readList();
     myForm.reset();
 }
 
 // Funzione di cancellazione record
 const modifyItem = async id => {
-    userMod.name = userName.value;
-    userMod.surname = userSurname.value;
-    userMod.phone = userPhone.value;
-    userMod.email = userEmail.value;
+    productMod.name = productName.value;
+    productMod.description = descProduct.value;
+    productMod.brand = brandProduct.value;
+    productMod.price = priceProduct.value;
+    productMod.imageUrl = linkProduct.value;
     try {
-        await fetch(dataURL + id, {
+        await fetch(url + id, {
             method: 'PUT',
-            body: JSON.stringify(userMod),
+            body: JSON.stringify(productMod),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -124,27 +126,23 @@ const modifyItem = async id => {
     } catch (error) {
         console.log(error);
     }
-    userMod = '';
-    readList();
+    productMod = '';
     myForm.reset();
-    btnSendForm.innerText = 'AGGIUNGI';
-    btnSendForm.setAttribute('disabled', 'true');
 }
 
 // Funzione di riempimento del form con i dati del record da modificare
 function printForm(id) {
-    for (let i = 0; i < usersList.length; i++) {
-        if (id == usersList[i].id) {
-            userMod = new Product(productName[i].value, descProduct[i].value, brandProduct[i].value, linkProduct[i].value, priceProduct[i].value);
-            userMod.id = usersList[i].id;
+    for (let i = 0; i < productList.length; i++) {
+        if (id == productList[i].id) {
+            productMod = new Product(productName[i].value, descProduct[i].value, brandProduct[i].value, linkProduct[i].value, priceProduct[i].value);
+            productMod.id = productList[i].id;
         }
     }
-    userName.value = userMod.name;
-    userSurname.value = userMod.surname;
-    userPhone.value = userMod.phone;
-    userEmail.value = userMod.email;
-    btnSendForm.innerText = 'MODIFICA';
-    btnSendForm.removeAttribute('disabled');
+    productMod.name = productName.value;
+    productMod.description = descProduct.value;
+    productMod.brand = brandProduct.value;
+    productMod.price = priceProduct.value;
+    productMod.imageUrl = linkProduct.value;
 }
 
 
