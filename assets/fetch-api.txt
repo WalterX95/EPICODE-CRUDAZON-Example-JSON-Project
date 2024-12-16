@@ -1,0 +1,52 @@
+fetch(url, {
+headers: {
+"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU4NzE0MzA3ZGI3MzAwMTU0MDYzYjIiLCJpYXQiOjE3MzQwODMwMjYsImV4cCI6MTczNTI5MjYyNn0.rD8PAahmZbW25bdkpccCc5YFq6o5Cw5YYXTfWCxoS0s"
+}
+})
+
+
+SQUADRE LUNEDI -->
+TEAM 1
+Manuel
+Luca
+Daniele Renna 
+Alberto
+
+TEAM 2
+Camilla
+Fransceca
+Giovanni
+Miguel
+Manuela
+
+Team 3
+Gianluca 
+Tommaso
+Daniele R
+Mariam
+Fernando
+
+TEAM 4
+Samuele
+Valentina
+Alessandro
+Matilde
+Ombretta
+
+Team 5
+Domenico
+Giacomo
+Osama 
+NIcola
+
+Walter
+Rachele
+Vittorio
+Giuseppe
+D Franc
+Kljed
+
+FEDERICO
+FERICO
+ELIANA 
+NINFA E CHIARA
